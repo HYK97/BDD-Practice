@@ -51,30 +51,27 @@ public class SpringInit {
         assertThat(users.get(0)).isEqualTo(findUser);
     }
 
-    public void idNotBlankTest(String id, String password) {
+    public void notBlankTest(String id, String password, String expectation) {
         User user = User.builder().userid(id).password(password).build();
-        Set<ConstraintViolation<User>> validate =
+        Set<ConstraintViolation<User>> violation =
                 validator.validate(user);
-        for (ConstraintViolation<User> userConstraintViolation : validate) {
+        for (ConstraintViolation<User> userConstraintViolation : violation) {
             String message = userConstraintViolation.getMessage();
             System.out.println("message = " + message);
-            assertThat(message).isEqualTo("아이디는 비워둘수없습니다.");
+            assertThat(message).isEqualTo(expectation);
         }
     }
 
-    public void passwordNotBlankTest(String id, String password) {
-        User user = User.builder().userid(id).password(password).build();
-        Set<ConstraintViolation<User>> validate =
-                validator.validate(user);
-        for (ConstraintViolation<User> userConstraintViolation : validate) {
-            String message = userConstraintViolation.getMessage();
-            System.out.println("message = " + message);
-            assertThat(message).isEqualTo("비밀번호는 비워둘수없습니다.");
-        }
+
+    public void loginSuccess(String id, String password) {
+        User findUser = userRepository.findByUseridAndPassword(id, password).orElse(null);
+        assertThat(findUser.getUserid()).isEqualTo(id);
+        assertThat(findUser.getPassword()).isEqualTo(password);
     }
 
-    public User loginTest(String id, String password) {
-        return userRepository.findByUseridAndPassword(id, password).orElseThrow(() -> new IllegalArgumentException("아이디 에러"));
+    public void loginFail(String id, String password) {
+        User findUser = userRepository.findByUseridAndPassword(id, password).orElse(null);
+        assertThat(findUser).isNull();
     }
 
 

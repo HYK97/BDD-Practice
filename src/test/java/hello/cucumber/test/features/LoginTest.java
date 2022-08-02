@@ -1,14 +1,9 @@
 package hello.cucumber.test.features;
 
-import hello.cucumber.test.entity.User;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 
 
 public class LoginTest extends SpringInit {
@@ -35,31 +30,21 @@ public class LoginTest extends SpringInit {
     }
 
 
-    @When("로그인시 아이디는 비워둘수없습니다. 메세지 띄움 {string}")
-    public void exception1(String password) {
-        idNotBlankTest(null, password);
+    @Then("{string} {string} {string} 메세지를 반환")
+    public void exception1(String id, String password, String expectation) {
+        notBlankTest(id, password, expectation);
     }
 
-    @When("로그인시 비밀번호는 비워둘수없습니다. 메세지 띄움 {string}")
-    public void exception2(String id) {
-        passwordNotBlankTest(id, null);
+    @Then("로그인 실패 {string} {string}")
+    public void exception2(String id, String password) {
+        loginFail(id, password);
     }
 
-    @When("비밀번호가 다를경우 로그인 실패 {string} {string}")
-    public void exception3(String id, String password) {
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> loginTest(id, password));
-    }
 
-    @When("아이디가 다를경우 로그인 실패 {string} {string}")
-    public void exception4(String id, String password) {
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> loginTest(id, password));
-    }
-
-    @When("로그인 성공 했을 경우 {string} {string}")
+    @Then("로그인 성공 했을 경우 {string} {string}")
     public void success(String id, String password) {
-        User user = loginTest(id, password);
-        assertThat(user.getUserid()).isEqualTo(id);
-        assertThat(user.getPassword()).isEqualTo(password);
+        loginSuccess(id, password);
+
     }
 
 
