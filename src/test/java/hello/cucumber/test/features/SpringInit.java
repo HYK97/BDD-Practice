@@ -55,6 +55,7 @@ public class SpringInit {
         User user = User.builder().userid(id).password(password).build();
         Set<ConstraintViolation<User>> violation =
                 validator.validate(user);
+        assertThat(violation.size()).isEqualTo(1);
         for (ConstraintViolation<User> userConstraintViolation : violation) {
             String message = userConstraintViolation.getMessage();
             System.out.println("message = " + message);

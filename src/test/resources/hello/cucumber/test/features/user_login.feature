@@ -5,10 +5,10 @@ Feature: 유저 로그인
     Then 회원가입 확인 "user1" "password1"
 
   Scenario: 유저 로그인 실패 시나리오 id가 빈 공간일 경우
-    Then  "null" "password1" "로그인시 아이디는 비워둘수없습니다." 메세지를 반환
+    Then  "null" "password1" "아이디는 비워둘수없습니다." 메세지를 반환
 
   Scenario: 유저 로그인 실패 시나리오  password가 빈 공간일 경우
-    Then   "user1" "null" "로그인시 아이디는 비워둘수없습니다." 메세지를 반환
+    Then   "user1" "null" "비밀번호는 비워둘수없습니다." 메세지를 반환
 
   Scenario: 유저 로그인 실패 시나리오 비밀번호가 다를 경우
     Then 로그인 실패 "user1" "password2d"
